@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fraud Detection API</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Fraud Detection API</h1>
+      <p>Kaggle credit card fraud scoring with SHAP explainability. Use a sample row or paste JSON for scoring.</p>
+    </header>
+
+    <section class="panel actions-row">
+      <button id="loadSampleBtn">Load Sample Transaction</button>
+      <button id="scoreBtn">Score JSON</button>
+    </section>
+
+    <section class="panel grid">
+      <div>
+        <label for="payload">Transaction payload (JSON)</label>
+        <textarea id="payload"></textarea>
+      </div>
+      <div>
+        <label for="csvFile">Optional Kaggle CSV upload</label>
+        <input id="csvFile" type="file" accept=".csv" />
+        <label for="rowIndex">Row index</label>
+        <input id="rowIndex" type="number" min="0" value="0" />
+        <button id="scoreCsvBtn">Score Uploaded CSV Row</button>
+        <div class="hint">Upload the creditcard.csv file and score a row by index.</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Prediction</h2>
+      <pre id="result"></pre>
+    </section>
+
+    <section class="panel">
+      <h2>Top SHAP signals</h2>
+      <div id="signals"></div>
+    </section>
+  </div>
+  <script>
+    window.defaultPayload = {
+      "Time": 0,
+      "V1": -1.359807134,
+      "V2": -0.072781173,
+      "V3": 2.536346738,
+      "V4": 1.378155224,
+      "V5": -0.33832077,
+      "V6": 0.462387778,
+      "V7": 0.239598554,
+      "V8": 0.098697901,
+      "V9": 0.36378697,
+      "V10": 0.090794172,
+      "V11": -0.551599533,
+      "V12": -0.617800856,
+      "V13": -0.991389847,
+      "V14": -0.311169354,
+      "V15": 1.468176972,
+      "V16": -0.470400525,
+      "V17": 0.207971242,
+      "V18": 0.02579058,
+      "V19": 0.40399296,
+      "V20": 0.251412098,
+      "V21": -0.018306778,
+      "V22": 0.277837576,
+      "V23": -0.11047391,
+      "V24": 0.066928075,
+      "V25": 0.128539358,
+      "V26": -0.189114844,
+      "V27": 0.133558377,
+      "V28": -0.021053053,
+      "Amount": 149.62
+    };
+  </script>
+  <script src="/static/app.js"></script>
+</body>
+</html>
