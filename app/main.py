@@ -103,21 +103,18 @@ def payload_to_frame(payload: FraudRequest) -> pd.DataFrame:
 def compute_prediction(df: pd.DataFrame) -> PredictionResponse:
     bundle = load_bundle()
     model = bundle['model']
-    explainer = bundle['explainer']
 
     probability = float(model.predict_proba(df)[0, 1])
     label = 'fraud' if probability >= bundle.get('threshold', 0.5) else 'legitimate'
     risk = 'high' if probability >= 0.8 else 'medium' if probability >= 0.5 else 'low'
 
-    shap_values = explainer.shap_values(df)
-    if isinstance(shap_values, list):
-        shap_for_class = shap_values[1][0]
+    explainer = shap.Explainer(model)
+    shap_values = explainer(df)
+    shap_array = shap_values.values
+    if shap_array.ndim == 3:
+        shap_for_class = shap_array[0, : , 1]
     else:
-        arr = np.array(shap_values)
-        if arr.ndim == 3:
-            shap_for_class = arr[0, :, 1]
-        else:
-            shap_for_class = arr[0]
+        shap_for_class = shap_array[0]
 
     feature_pairs = [
         {
